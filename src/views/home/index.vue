@@ -1,23 +1,23 @@
 <template>
-  <div class="app">
-    app
-    <home />
+  <div class="home-wrapper">
+    home
+    <tab-bar />
   </div>
 </template>
 
 <script>
-import Home from '@/views/home';
+import TabBar from '@/components/tab-bar';
 export default {
-  name: 'App',
+  name: 'Home',
 
   components: {
-    Home
+    TabBar
   }
 };
 </script>
 
 <style lang="scss">
-.app {
+.home-wrapper {
   font-size: 0.1rem;
 }
 </style>

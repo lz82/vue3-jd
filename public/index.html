@@ -1,16 +1,60 @@
 <!DOCTYPE html>
 <html lang="">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without
+        JavaScript enabled. Please enable it to continue.</strong
+      >
     </noscript>
+    <script>
+      (function(win) {
+        var docEl = win.document.documentElement,
+          tid;
+        const originWidth = 375; // 以375px为原稿
+
+        function refreshRem() {
+          var width = docEl.getBoundingClientRect().width;
+          var rem = (width / originWidth) * 100; //以原稿除以100可得各元素的rem
+          docEl.style.fontSize = rem + 'px';
+          var actualSize = parseFloat(window.getComputedStyle(docEl)['font-size']);
+          if (actualSize !== rem) {
+            var remScaled = rem / (actualSize / rem);
+            docEl.style.fontSize = remScaled + 'px';
+          }
+        }
+
+        function dbcRefresh() {
+          clearTimeout(tid);
+          tid = setTimeout(refreshRem, 100);
+        }
+
+        win.addEventListener(
+          'resize',
+          function() {
+            dbcRefresh();
+          },
+          false
+        );
+        win.addEventListener(
+          'pageshow',
+          function(e) {
+            if (e.persisted) {
+              dbcRefresh();
+            }
+          },
+          false
+        );
+        refreshRem();
+      })(window);
+    </script>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
