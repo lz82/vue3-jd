@@ -7,43 +7,57 @@
       :class="{ active: currentTab === index }"
     >
       <i class="iconfont" :class="tab.icon" />
-      {{ tab.name }}
+      <span class="tab-name">{{ tab.name }}</span>
     </li>
   </ul>
 </template>
 
 <script>
+import { ref } from 'vue';
+
+const useTabBar = () => {
+  const currentTab = ref(0);
+  const list = [
+    {
+      icon: 'icon-shouye',
+      name: '首页'
+    },
+    {
+      icon: 'icon-gouwuche',
+      name: '购物车'
+    },
+    {
+      icon: 'icon-wodedingdan',
+      name: '订单'
+    },
+    {
+      icon: 'icon-wodejuhuasuan',
+      name: '我的'
+    }
+  ];
+
+  const onClick = (index) => {
+    currentTab.value = index;
+  };
+
+  return {
+    list,
+    currentTab,
+    onClick
+  };
+};
+
 export default {
   name: 'Tabbar',
 
-  data() {
-    return {
-      list: [
-        {
-          icon: 'icon-shouye',
-          name: '首页'
-        },
-        {
-          icon: 'icon-gouwuche',
-          name: '购物车'
-        },
-        {
-          icon: 'icon-wodedingdan',
-          name: '订单'
-        },
-        {
-          icon: 'icon-wodejuhuasuan',
-          name: '我的'
-        }
-      ],
-      currentTab: 0
-    };
-  },
+  setup() {
+    const { list, currentTab, onClick } = useTabBar();
 
-  methods: {
-    onClick(index) {
-      this.currentTab = index;
-    }
+    return {
+      list,
+      currentTab,
+      onClick
+    };
   }
 };
 </script>
@@ -57,6 +71,7 @@ export default {
   height: 0.5rem;
   box-shadow: 0 -1px 1px 0 #f1f1f1;
   box-sizing: border-box;
+  margin: 0;
   padding: 0 0.4rem;
   list-style: none;
 
@@ -70,14 +85,20 @@ export default {
     flex-flow: column nowrap;
     color: #333;
     font-size: 0.1rem;
-    text-align: center;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
     i {
-      padding-bottom: 5px;
       font-size: 0.2rem;
     }
 
     &.active {
       color: #1fa4fc;
+    }
+
+    .tab-name {
+      line-height: 0.14rem;
     }
   }
 }
